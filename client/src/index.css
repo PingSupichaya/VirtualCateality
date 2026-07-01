@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+@theme {
+    --navbar-color: #9EDEF8;
+    --bg-color: #EAF9FF;
+    --quiz-bg-color: #FDEBD7;
+
+    --text-topic: #3B132B;
+    --text: #6B2F55;
+
+    --btn-bg: #F9BD97;
+    --btn-border: #6B2F55;
+
+    --border: #3B132B;
+
+    --selfcard: #ACD895;
+    --quizcard: #EEE682;
+}
+
+@layer base {
+    :root {
+        background-image: url('./assets/noisebg.svg');
+        color: var(--text);
+    }
+}

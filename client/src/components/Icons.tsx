@@ -1,0 +1,7 @@
+export const User = ({ size }: { size: string }) => {
+    return( <svg width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="11.6667" r="6.66667" stroke="#3B132B" strokeWidth="4" strokeLinecap="round"/>
+                <path d="M9.78199 27.5693C10.7498 24.8665 13.4384 23.3334 16.3093 23.3334H23.6908C26.5616 23.3334 29.2503 24.8665 30.2181 27.5693C30.8782 29.4127 31.4918 31.6801 31.6353 34.0006C31.6693 34.5518 31.219 35 30.6667 35H9.33337C8.78109 35 8.33075 34.5518 8.36482 34.0006C8.50824 31.6801 9.1219 29.4127 9.78199 27.5693Z" 
+                    stroke="#3B132B" strokeWidth="4" strokeLinecap="round"/>
+            </svg> );
+}
