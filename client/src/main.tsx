@@ -5,6 +5,7 @@ import './index.css'
 import NavBar from './components/NavBar.tsx'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { AuthProvider } from './context/AuthContext.tsx'
+import { CatProvider } from './context/CatContext.tsx'
 
 import HomePage from './pages/web/HomePage.tsx'
 import LoginPage from './pages/web/LoginPage.tsx'
@@ -48,6 +49,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <GoogleOAuthProvider clientId="923855747932-a5k05rdp5c91v8c7o9qvi6tl6shsdh9p.apps.googleusercontent.com">
       <AuthProvider>
+        <CatProvider>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Navigate to="/home" replace />} />
@@ -62,6 +64,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path="/quiz/result" element={<QuizLayout><QuizResultPage/></QuizLayout>} />
           </Routes>
         </BrowserRouter>
+        </CatProvider>
       </AuthProvider>
     </GoogleOAuthProvider>
   </StrictMode>

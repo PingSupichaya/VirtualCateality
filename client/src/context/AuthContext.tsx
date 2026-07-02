@@ -10,8 +10,10 @@ export type GoogleProfile = {
 
 type AuthContextType = {
   isLoggedIn: boolean;
+  isAnonymous: boolean;
   profile: GoogleProfile | null;
   loginWithGoogle: (credential: string) => void;
+  loginAsAnonymous: () => void;
   logout: () => void;
 };
 
@@ -19,6 +21,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<GoogleProfile | null>(null);
+  const [isAnonymous, setIsAnonymous] = useState(false);
 
   const loginWithGoogle = (credential: string) => {
     const decoded: any = jwtDecode(credential);
@@ -27,15 +30,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email: decoded.email,
       picture: decoded.picture,
     });
+    setIsAnonymous(false);
+  };
+
+  const loginAsAnonymous = () => {
+    setProfile(null);
+    setIsAnonymous(true);
   };
 
   const logout = () => {
     googleLogout();
     setProfile(null);
+    setIsAnonymous(false);
   };
 
+  const isLoggedIn = !!profile || isAnonymous;
+
   return (
-    <AuthContext.Provider value={{ isLoggedIn: !!profile, profile, loginWithGoogle, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, isAnonymous, profile, loginWithGoogle, loginAsAnonymous, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -5,7 +5,7 @@ export default function SelectPage(){
 
     return( <div className="flex flex-col items-center justify-center gap-10">
                 <p className="text-2xl font-bold mt-8">Which Cat you want to adopt?</p>
-                <div className="flex items-center gap-15">
+                <div className="flex items-center gap-8 sm:gap-15">
                     {/* Self select Card */}
                     <div>
                         <div className="bg-(--selfcard) w-[220px] h-[360px] sm:w-[404px] sm:h-[562px] border border-(--border) rounded-xl text-2xl text-center font-bold flex items-center justify-center"

@@ -13,6 +13,11 @@ export type Cat = {
     personality: string[];
     description: string;
     img: string;
+    score: {
+        interaction: number;
+        aggressive: number;
+        shyness: number;
+    };
 };
 
 export const cats: Cat[] = [
@@ -21,56 +26,64 @@ export const cats: Cat[] = [
         breed: "Bengal",
         personality: ["energetic", "affectionate", "adventurous"],
         description: "",
-        img: Bengal
+        img: Bengal,
+        score: { interaction: 12, aggressive: 18, shyness: 2 }
     },
     {
         id: 2,
         breed: "British Shorthair",
         personality: ["calm", "devoted", "easy-going"],
         description: "",
-        img: BritishShorthair
+        img: BritishShorthair,
+        score: { interaction: 8, aggressive: 4, shyness: 14 }
     },
     {
         id: 3,
         breed: "Maine Coon",
         personality: ["playful", "friendly", "adaptable"],
         description: "",
-        img: MaineCoon
+        img: MaineCoon,
+        score: { interaction: 16, aggressive: 10, shyness: 4 }
     },
     {
         id: 4,
         breed: "Persian",
         personality: ["sweet", "quiet", "gentle"],
         description: "Prefers a calm environment and lots of naps. A true lap cat.",
-        img: Persian
+        img: Persian,
+        score: { interaction: 4, aggressive: 2, shyness: 18 }
     },
     {
         id: 5,
         breed: "Ragdoll",
         personality: ["sweet", "laid-back", "loving"],
         description: "",
-        img: Ragdoll
+        img: Ragdoll,
+        score: { interaction: 14, aggressive: 3, shyness: 12 }
     },
     {
         id: 6,
         breed: "Russian Blue",
         personality: ["playful", "loyal", "independent"],
         description: "",
-        img: RussianBlue
+        img: RussianBlue,
+        score: { interaction: 6, aggressive: 8, shyness: 16 }
     },
     {
         id: 7,
         breed: "Siamese",
         personality: ["vocal", "loving", "entertaining"],
         description: "",
-        img: Siamese
+        img: Siamese,
+        score: { interaction: 18, aggressive: 12, shyness: 3 }
     },
     {
         id: 8,
         breed: "Turkish Van and Angora",
         personality: ["friendly", "playful", "intelligent"],
         description: "",
-        img: TurkishVan
+        img: TurkishVan,
+        score: { interaction: 14, aggressive: 16, shyness: 4 }
     },
 ];
 
@@ -202,44 +215,21 @@ export const quizStories: Record<number, StoryPage[]> = {
     7: [],
 };
 
-// Each cat's ideal score profile for matching with quiz results
-// Higher value = that cat thrives more in that trait
-export type CatScoreProfile = {
-    catId: number;
-    interaction: number;
-    aggressive: number;
-    shyness: number;
-};
-
-export const catScoreProfiles: CatScoreProfile[] = [
-    { catId: 1, interaction: 12, aggressive: 18, shyness: 2 },  // Bengal — high energy, bold
-    { catId: 2, interaction: 8, aggressive: 4, shyness: 14 },   // British Shorthair — calm, independent
-    { catId: 3, interaction: 16, aggressive: 10, shyness: 4 },  // Maine Coon — social, playful
-    { catId: 4, interaction: 4, aggressive: 2, shyness: 18 },   // Persian — quiet, gentle
-    { catId: 5, interaction: 14, aggressive: 3, shyness: 12 },  // Ragdoll — loving, laid-back
-    { catId: 6, interaction: 6, aggressive: 8, shyness: 16 },   // Russian Blue — loyal but shy
-    { catId: 7, interaction: 18, aggressive: 12, shyness: 3 },  // Siamese — very social, vocal
-    { catId: 8, interaction: 14, aggressive: 16, shyness: 4 },  // Turkish Van — active, friendly
-];
-
 // Utility: get top 3 cats based on user's quiz score
 export function getTop3Cats(userScore: { interaction: number; aggressive: number; shyness: number }) {
-    const scored = catScoreProfiles.map(profile => {
-        // Calculate similarity using inverse of distance (closer = better match)
+    const scored = cats.map(cat => {
         const distance = Math.sqrt(
-            Math.pow(userScore.interaction - profile.interaction, 2) +
-            Math.pow(userScore.aggressive - profile.aggressive, 2) +
-            Math.pow(userScore.shyness - profile.shyness, 2)
+            Math.pow(userScore.interaction - cat.score.interaction, 2) +
+            Math.pow(userScore.aggressive - cat.score.aggressive, 2) +
+            Math.pow(userScore.shyness - cat.score.shyness, 2)
         );
-        return { catId: profile.catId, distance };
+        return { cat, distance };
     });
 
-    // Sort by smallest distance (best match first)
     scored.sort((a, b) => a.distance - b.distance);
 
-    // Return top 3 cat ids matched with full cat data
     return scored.slice(0, 3).map(s => ({
-        ...cats.find(c => c.id === s.catId)!,
+        ...s.cat,
         matchDistance: s.distance,
     }));
 }

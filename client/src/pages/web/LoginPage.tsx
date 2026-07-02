@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext.tsx'
 
 export default function LoginPage(){
     const navigate = useNavigate();
-    const { loginWithGoogle } = useAuth();
+    const { loginWithGoogle, loginAsAnonymous } = useAuth();
 
     const onSuccess = (credentialResponse: any) => {
         if (credentialResponse.credential) {
@@ -14,8 +14,22 @@ export default function LoginPage(){
         }
     }
 
+    {/* May be use in future idk */}
+    // const handleSuccess = (credentialResponse) => {
+    //     fetch('/api/auth/google', {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify({ idToken: credentialResponse.credential })
+    //     });
+    // };
+
     const onFailure = () => {
         console.log('Google login failed')
+    }
+
+    const handleAnonymous = () => {
+        loginAsAnonymous();
+        navigate('/select');
     }
 
     return( <div className="flex flex-col items-center gap-6">
@@ -31,7 +45,7 @@ export default function LoginPage(){
                         <div className="grow border-t border-(--text-topic)"></div>
                     </div>
                     <LoginBtn msg="Continue as anonymous" 
-                        onClick={() => navigate(`/select`)} />
+                        onClick={handleAnonymous} />
                 </div>
             </div>
     );
