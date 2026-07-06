@@ -14,8 +14,8 @@ create table if not exists cat_status (
     id serial primary key,
     token text references users(token),
     catId int references cats(catId),
-    food int not null default 100,
-    water int not null default 100,
+    hunger int not null default 100,
+    happiness int not null default 100,
     cleanness int not null default 100,
     health int not null default 100,
     updatedAt timestamp not null default now()
@@ -43,13 +43,3 @@ create table if not exists stories (
     imgPath text,
     UNIQUE (questionId, pageOrder)
 );
-
-create table if not exists quizHistory (
-    id serial primary key,
-    token text not null references users(token),
-    interactionSum int not null default 0,
-    aggressiveSum int not null default 0,
-    shynessSum int not null default 0,
-    takenAt timestamp not null default now()
-);
---result cat query from users table

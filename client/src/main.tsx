@@ -12,7 +12,6 @@ import LoginPage from './pages/web/LoginPage.tsx'
 import DecisionPage from './pages/web/DecisionPage.tsx'
 import SelectCatPage from './pages/web/SelectCatPage.tsx'
 import SimulationPage from './pages/web/SimulationPage.tsx'
-import AccountPage from './pages/web/AccountPage.tsx'
 
 import QuizHomePage from './pages/quiz/QuizHomePage.tsx'
 import QuizQuestionPage from './pages/quiz/QuizQuestionPage.tsx'
@@ -58,7 +57,6 @@ createRoot(document.getElementById('root')!).render(
             <Route path="/select" element={<Layout><DecisionPage/></Layout>} />
             <Route path="/selectcat" element={<Layout><SelectCatPage/></Layout>} />
             <Route path="/simulation/:catId" element={<Layout><SimulationPage/></Layout>} />
-            <Route path="/myaccount" element={<Layout><AccountPage/></Layout>} />
             <Route path="/quiz" element={<QuizLayout><QuizHomePage/></QuizLayout>} />
             <Route path="/quiz-question" element={<QuizLayout><QuizQuestionPage/></QuizLayout>} />
             <Route path="/quiz/result" element={<QuizLayout><QuizResultPage/></QuizLayout>} />

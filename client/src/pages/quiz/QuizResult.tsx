@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom'
-import { getTop3Cats } from '../../../mocksdata'
+import { getTop3Cats } from '../../mocksdata'
 import { CatCard } from '../../components/Components';
 
 export default function QuizResult(){

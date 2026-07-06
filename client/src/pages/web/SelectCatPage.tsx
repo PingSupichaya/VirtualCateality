@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { cats } from '../../../mocksdata'
+import { cats } from '../../mocksdata.ts'
 import { CatCard } from '../../components/Components.tsx'
 
 export default function SelectCatPage(){

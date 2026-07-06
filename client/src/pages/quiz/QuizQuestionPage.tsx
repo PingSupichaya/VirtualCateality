@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AnsBtn, QuizBtn } from '../../components/Components.tsx'
-import { quizQuestions, quizStories } from '../../../mocksdata'
+import { quizQuestions, quizStories } from '../../mocksdata.ts'
 
 export type QuizScore = {
     interaction: number;

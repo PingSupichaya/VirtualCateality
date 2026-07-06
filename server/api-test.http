@@ -1,0 +1,24 @@
+### List tasks
+GET http://localhost:3000/tasks HTTP/1.1
+
+### Get task by ID
+GET http://localhost:3000/tasks/1 HTTP/1.1
+
+### Search tasks
+GET http://localhost:3000/tasks?search=My Title HTTP/1.1
+
+### Creat a new task
+POST http://localhost:3000/tasks HTTP/1.1
+Content-Type: application/json
+x-api-key: mysecretKey
+
+{
+    "title": "Another task",
+    "completed": false
+}
+
+### create a new task with form data
+POST http://localhost:3000/tasks HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+title=Another+task&completed=false

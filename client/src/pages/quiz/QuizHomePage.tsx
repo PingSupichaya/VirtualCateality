@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import catImg from '../../assets/Bengal.png'
+import catImg from '../../assets/BengalCat.png'
 import { QuizBtn } from '../../components/Components.tsx'
 
 export default function QuizHomePage(){

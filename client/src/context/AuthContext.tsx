@@ -23,7 +23,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<GoogleProfile | null>(null);
   const [isAnonymous, setIsAnonymous] = useState(false);
 
-  const loginWithGoogle = (credential: string) => {
+  const loginWithGoogle = async(credential: string) => {
     const decoded: any = jwtDecode(credential);
     setProfile({
       name: decoded.name,
@@ -31,6 +31,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       picture: decoded.picture,
     });
     setIsAnonymous(false);
+
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/google", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: credential }), 
+      });
+      
+      const backendData = await response.json();
+      console.log("Login Success! Welcome to be a part of Cat family", backendData);
+      
+    } catch (error) {
+      console.error("Login Fail", error);
+    }
   };
 
   const loginAsAnonymous = () => {
