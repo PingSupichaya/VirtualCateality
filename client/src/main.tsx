@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode, type ReactNode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import './index.css'
@@ -17,7 +17,7 @@ import QuizHomePage from './pages/quiz/QuizHomePage.tsx'
 import QuizQuestionPage from './pages/quiz/QuizQuestionPage.tsx'
 import QuizResultPage from './pages/quiz/QuizResult.tsx'
 
-function Layout({ children }){
+function Layout({ children }: { children: ReactNode }){
   return( 
       <div className="min-h-screen bg-[url('./assets/noisebg.svg')]">
         <NavBar />
@@ -26,7 +26,7 @@ function Layout({ children }){
       );
 }
 
-function QuizLayout({ children }){
+function QuizLayout({ children }: { children: ReactNode }){
   return( 
       <div className="min-h-screen bg-(--quiz-bg-color)">
         {children}
@@ -34,9 +34,9 @@ function QuizLayout({ children }){
       );
 }
 
-function SidePic({ children }){
+function SidePic({ children }: { children: ReactNode }){
   return( <div className="flex min-h-screen bg-[url('./assets/noisebg.svg')]">
-            <aside className="hidden md:block w-3/5 bg-(--navbar-color) bg-cover bg-center">
+            <aside className="hidden md:block w-3/5 bg-[url('./assets/loginPic.png')] bg-cover bg-center">
             </aside>
             <div className="w-full md:w-2/5">
               {children}

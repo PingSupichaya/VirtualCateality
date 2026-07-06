@@ -1,5 +1,9 @@
 create table if not exists users(
-    token text primary key
+    token text primary key,
+    name text,
+    email text,
+    picture text,
+    createdAt timestamp not null default now()
 );
 
 create table if not exists cats(

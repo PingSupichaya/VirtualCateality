@@ -1,24 +1,43 @@
-### List tasks
-GET http://localhost:3000/tasks HTTP/1.1
+@baseUrl = http://localhost:3000/api
 
-### Get task by ID
-GET http://localhost:3000/tasks/1 HTTP/1.1
-
-### Search tasks
-GET http://localhost:3000/tasks?search=My Title HTTP/1.1
-
-### Creat a new task
-POST http://localhost:3000/tasks HTTP/1.1
+### Google login (paste a real Google ID token as credential)
+POST {{baseUrl}}/auth/google HTTP/1.1
 Content-Type: application/json
-x-api-key: mysecretKey
 
 {
-    "title": "Another task",
-    "completed": false
+    "credential": "PASTE_GOOGLE_ID_TOKEN_HERE"
 }
 
-### create a new task with form data
-POST http://localhost:3000/tasks HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
+### Current user profile (requires Bearer token from /auth/google)
+GET {{baseUrl}}/auth/me HTTP/1.1
+Authorization: Bearer PASTE_APP_JWT_HERE
 
-title=Another+task&completed=false
+### List all cats
+GET {{baseUrl}}/cats HTTP/1.1
+
+### Get a single cat
+GET {{baseUrl}}/cats/1 HTTP/1.1
+
+### List quiz questions + answers + stories
+GET {{baseUrl}}/quiz/questions HTTP/1.1
+
+### Submit quiz answers (one answerId per question) and get matching cats
+POST {{baseUrl}}/quiz/result HTTP/1.1
+Content-Type: application/json
+
+{
+    "answerIds": [11, 21, 31, 41, 51, 61, 71]
+}
+
+### Get the logged-in user's saved cat
+GET {{baseUrl}}/user/selected-cat HTTP/1.1
+Authorization: Bearer PASTE_APP_JWT_HERE
+
+### Save the logged-in user's selected cat
+POST {{baseUrl}}/user/selected-cat HTTP/1.1
+Authorization: Bearer PASTE_APP_JWT_HERE
+Content-Type: application/json
+
+{
+    "catId": 3
+}

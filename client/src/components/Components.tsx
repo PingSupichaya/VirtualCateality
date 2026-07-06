@@ -1,6 +1,12 @@
+import type { ReactNode } from "react";
+
 type BtnProps = {
     msg: string;
     onClick: () => void;
+}
+
+type LoginBtnProps = BtnProps & {
+    icon?: ReactNode;
 }
 
 export const NavBtn = ({msg, onClick}: BtnProps) => {
@@ -17,10 +23,11 @@ export const Btn = ({msg, onClick}: BtnProps) => {
                 {msg}</button>);
 };
 
-export const LoginBtn = ({msg, onClick}: BtnProps) => {
-    return (<button className="text-m sm:text-lg font-bold cursor-pointer 
-            bg-white px-4 py-2 rounded-3xl"
+export const LoginBtn = ({msg, onClick, icon}: LoginBtnProps) => {
+    return (<button className="w-full text-m sm:text-lg font-bold cursor-pointer 
+            bg-white px-4 py-2 rounded-3xl flex items-center justify-center gap-3"
             onClick={onClick}>
+                {icon}
                 {msg}</button>);
 };
 

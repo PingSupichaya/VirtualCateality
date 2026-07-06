@@ -1,18 +1,16 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { googleLogout } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
+import { loginWithGoogleAPI, clearStoredToken, setStoredToken } from "../services/api";
 
 export type GoogleProfile = {
   name: string;
-  email: string;
-  picture: string;
 };
 
 type AuthContextType = {
   isLoggedIn: boolean;
   isAnonymous: boolean;
   profile: GoogleProfile | null;
-  loginWithGoogle: (credential: string) => void;
+  loginWithGoogle: (credential: string) => Promise<void>;
   loginAsAnonymous: () => void;
   logout: () => void;
 };
@@ -23,39 +21,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<GoogleProfile | null>(null);
   const [isAnonymous, setIsAnonymous] = useState(false);
 
-  const loginWithGoogle = async(credential: string) => {
-    const decoded: any = jwtDecode(credential);
-    setProfile({
-      name: decoded.name,
-      email: decoded.email,
-      picture: decoded.picture,
-    });
+  const loginWithGoogle = async (credential: string) => {
+    const { token, user } = await loginWithGoogleAPI(credential);
+    setStoredToken(token);
+    setProfile({ name: user.name ?? "Cat lover" });
     setIsAnonymous(false);
-
-    try {
-      const response = await fetch("http://localhost:3000/api/auth/google", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ token: credential }), 
-      });
-      
-      const backendData = await response.json();
-      console.log("Login Success! Welcome to be a part of Cat family", backendData);
-      
-    } catch (error) {
-      console.error("Login Fail", error);
-    }
   };
 
   const loginAsAnonymous = () => {
+    // Anonymous sessions are never persisted to the backend, so there's nothing
+    // to store beyond local UI state.
     setProfile(null);
     setIsAnonymous(true);
   };
 
   const logout = () => {
     googleLogout();
+    clearStoredToken();
     setProfile(null);
     setIsAnonymous(false);
   };

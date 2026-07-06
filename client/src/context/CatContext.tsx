@@ -1,6 +1,6 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
-// import { saveSelectedCat, getSelectedCat } from '../services/api';
-// import { useAuth } from './AuthContext';
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { saveSelectedCat, getSelectedCat } from '../services/api';
+import { useAuth } from './AuthContext';
 
 type CatContextType = {
     selectedCatId: number | null;
@@ -12,22 +12,24 @@ const CatContext = createContext<CatContextType | undefined>(undefined);
 
 export function CatProvider({ children }: { children: ReactNode }) {
     const [selectedCatId, setSelectedCatId] = useState<number | null>(null);
-    // const { isLoggedIn, isAnonymous } = useAuth();
+    const { isLoggedIn, isAnonymous } = useAuth();
 
-    // TODO: When backend is ready, fetch user's saved cat on login
-    // useEffect(() => {
-    //     if (isLoggedIn && !isAnonymous) {
-    //         getSelectedCat(token).then(data => setSelectedCatId(data.catId));
-    //     }
-    // }, [isLoggedIn]);
+    // Fetch the user's previously saved cat on login (Google users only —
+    // anonymous sessions have nothing to fetch, since they're never persisted).
+    useEffect(() => {
+        if (isLoggedIn && !isAnonymous) {
+            getSelectedCat()
+                .then((data) => setSelectedCatId(data.catId))
+                .catch((error) => console.error('Failed to load selected cat', error));
+        }
+    }, [isLoggedIn, isAnonymous]);
 
     const selectCat = (catId: number) => {
         setSelectedCatId(catId);
 
-        // TODO: When backend is ready, save to database
-        // if (isLoggedIn && !isAnonymous) {
-        //     saveSelectedCat(token, catId);
-        // }
+        if (isLoggedIn && !isAnonymous) {
+            saveSelectedCat(catId).catch((error) => console.error('Failed to save selected cat', error));
+        }
     };
 
     const clearCat = () => {
